@@ -1190,6 +1190,11 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         float h = card.getHeight() * scale + 2 * pad;
         float x = r.exactCenterX() - w / 2f;
         float y = r.exactCenterY() - h / 2f - (advancedEffects ? 4f * density : 0f);
+        if (cfg.listStyle) {
+            // Minimal list: the highlight bar runs edge to edge.
+            w = getResources().getDisplayMetrics().widthPixels;
+            x = 0f;
+        }
 
         ViewGroup.LayoutParams lp = glass.getLayoutParams();
         if (lp.width != (int) w || lp.height != (int) h || card.getWidth() != glassCardW) {
@@ -2184,6 +2189,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     /** Hides the Inputs pill when it would have nothing to list: streaming boxes have no HDMI-in, AV or tuner. */
     private void updateInputsButton() {
+        if (!cfg.showInputsPill) {
+            btnInputs.setVisibility(View.GONE);
+            return;
+        }
         boolean any = liveTvIntent() != null || !sourcePanelService.isEmpty();
         TvInputManager tim = (TvInputManager) getSystemService(TV_INPUT_SERVICE);
         if (!any && tim != null) {

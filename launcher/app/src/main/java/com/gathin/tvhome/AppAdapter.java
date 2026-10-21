@@ -710,6 +710,21 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 view.animate().cancel();
                 banner.animate().cancel();
                 name.animate().cancel();
+                if (listStyle) {
+                    // Mac-dock magnification: the focused row's name grows smoothly from the left edge,
+                    // every other row dims; the glass bar carries the highlight.
+                    TextView label = view.findViewById(R.id.label);
+                    label.setPivotX(0f);
+                    label.setPivotY(view.getHeight() * 0.5f);
+                    label.animate().cancel();
+                    label.animate().scaleX(focused ? 1.30f : 1f).scaleY(focused ? 1.30f : 1f)
+                            .alpha(focused ? 1f : 0.62f)
+                            .setDuration(focused ? 180 : 150)
+                            .setInterpolator(new DecelerateInterpolator(1.4f))
+                            .withLayer().start();
+                    view.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                    name.animate().alpha(0f).setDuration(80).start();
+                } else {
                 float scale = !animations ? 1f : advancedEffects ? 1.12f : 1.10f;
                 float s = focused ? scale : 1f;
                 if (!animations) {
@@ -747,6 +762,7 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     name.animate().alpha(focused ? 1f : restNameAlpha)
                             .translationY(focused ? density * 4f : -density * 6f)
                             .setDuration(220).start();
+                }
                 }
                 int pos = getBindingAdapterPosition();
                 if (focused && listener != null && pos != RecyclerView.NO_POSITION) {
