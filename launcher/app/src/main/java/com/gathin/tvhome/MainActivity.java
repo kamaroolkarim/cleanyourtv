@@ -151,6 +151,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private boolean pillsShown;
     /** show_inputs_pill: the Inputs pill stays hidden even when input re-scans try to re-show it. */
     private boolean showInputsPill;
+    /** list_style: the grid draws full-width text rows with an edge-to-edge highlight bar. */
+    private boolean listStyle;
     private TextView shamsiDate;
     private TextView stats;
     private List<RaceWeekend.Race> raceCalendar;
@@ -308,6 +310,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // config.xml, overlaid by config.json from a pushed theme (see Config and tools/theme.sh).
         Config cfg = Config.load(this);
         showInputsPill = cfg.showInputsPill;
+        listStyle = cfg.listStyle;
         settingsKeycodes = cfg.settingsKeycodes;
         settingsKeyPanel = cfg.settingsKeyPanel;
         COLUMNS = cfg.columns;
@@ -1193,7 +1196,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         float h = card.getHeight() * scale + 2 * pad;
         float x = r.exactCenterX() - w / 2f;
         float y = r.exactCenterY() - h / 2f - (advancedEffects ? 4f * density : 0f);
-        if (cfg.listStyle) {
+        if (listStyle) {
             // Minimal list: the highlight bar runs edge to edge.
             w = getResources().getDisplayMetrics().widthPixels;
             x = 0f;
