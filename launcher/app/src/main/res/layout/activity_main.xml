@@ -305,11 +305,17 @@
                 android:clipToPadding="false"
                 android:orientation="horizontal">
 
+                <!-- The Inputs pill is removed entirely (show_inputs_pill=false): zero size, not focusable,
+                     and updateInputsButton() keeps it GONE, so no input re-scan can ever bring it back. -->
                 <TextView
                     android:id="@+id/btnInputs"
                     style="@style/TopButton"
                     android:text="@string/inputs"
                     android:drawableStart="@drawable/ic_input"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    android:focusable="false"
                     android:nextFocusDown="@+id/grid" />
 
                 <TextView
